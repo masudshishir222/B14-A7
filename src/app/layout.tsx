@@ -23,9 +23,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       data-theme="light"
       className={`${hindSiliguri.variable} h-full antialiased`}
     >
-      <body suppressHydrationWarning className="bg-[#E1E8E1] text-black">
+      <body
+        suppressHydrationWarning
+        className="flex min-h-screen flex-col bg-[#E1E8E1] text-black"
+      >
         <Header />
-        {children}
+        <div className="flex-1">{children}</div>
         <Footer />
       </body>
     </html>

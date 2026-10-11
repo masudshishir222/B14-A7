@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import logoIcon from "@/assets/logo-icon.png";
 import CurrentDate from "./CurrentDate";
 import Navlinks from "./Navlinks";
@@ -8,11 +9,15 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3">
+        <Link
+          href="/"
+          aria-label="বাজার দর - হোম পেজ"
+          className="flex items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#008940]"
+        >
           <div className="flex h-12 w-12 p-1.5">
             <Image
               src={logoIcon}
-              alt="বাজার দর লোগো"
+              alt=""
               width={28}
               height={28}
               className="object-contain"
@@ -22,7 +27,7 @@ export default function Header() {
             <p className="text-xl font-bold tracking-tight text-slate-900">বাজার দর</p>
             <CurrentDate />
           </div>
-        </div>
+        </Link>
 
         <div className="flex items-center gap-6">
           <button className="text-sm font-bold text-slate-800 transition hover:text-[#008940]">

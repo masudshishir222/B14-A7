@@ -15,11 +15,17 @@ export default function Home() {
         <Banner />
       </div>
 
-      <TodaysHighPrice />
+      <Suspense fallback={null}>
+        <TodaysHighPrice />
+      </Suspense>
 
-      <TodaysLowPrice />
+      <Suspense fallback={null}>
+        <TodaysLowPrice />
+      </Suspense>
 
-      <AllProducts />
+      <Suspense fallback={null}>
+        <AllProducts />
+      </Suspense>
     </div>
 
   );
