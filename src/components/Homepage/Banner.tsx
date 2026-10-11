@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import bazarHero from "@/assets/bazar-hero.png";
 import CurrentDate from "@/components/CurrentDate";
 
@@ -13,9 +14,12 @@ const Banner = () => {
             আজকের বাজারের দাম এক নজরে
           </h1>
 
-          <button className="rounded-lg bg-[#008940] px-6 py-2.5 font-bold text-white shadow-sm transition hover:bg-emerald-800">
+          <Link
+            href="/Products"
+            className="rounded-lg bg-[#008940] px-6 py-2.5 font-bold text-white shadow-sm transition hover:bg-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008940]"
+          >
             সব পণ্য দেখুন
-          </button>
+          </Link>
         </div>
 
         <div className="flex w-full justify-center md:w-1/2 md:justify-end">
