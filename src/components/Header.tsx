@@ -4,6 +4,7 @@ import Link from "next/link";
 import logoIcon from "@/assets/logo-icon.png";
 import CurrentDate from "./CurrentDate";
 import Navlinks from "./Navlinks";
+import AuthLinks from "./AuthLinks";
 
 export default function Header() {
   return (
@@ -29,14 +30,7 @@ export default function Header() {
           </div>
         </Link>
 
-        <div className="flex items-center gap-6">
-          <button className="text-sm font-bold text-slate-800 transition hover:text-[#008940]">
-            সাইন ইন
-          </button>
-          <button className="rounded-lg bg-[#008940] px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-800">
-            সাইন আপ
-          </button>
-        </div>
+        <AuthLinks />
       </div>
 
       <div className="border-t border-slate-100">
