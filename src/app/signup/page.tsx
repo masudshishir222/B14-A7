@@ -61,7 +61,7 @@ export default function SignupPage() {
 
   return (
     <main className="flex min-h-[calc(100vh-8rem)] items-center justify-center bg-[#f0f5f0] px-4 py-8 text-[#202b24]">
-      <div className="w-full max-w-[390px]">
+      <div className="w-full max-w-97.5">
         <header className="mb-4 text-center">
           <h1 className="text-xl font-bold leading-tight">অ্যাকাউন্ট তৈরি করুন</h1>
           <p className="mt-1 text-xs text-[#77817a]">
@@ -82,7 +82,7 @@ export default function SignupPage() {
                 autoComplete="name"
                 required
                 placeholder="উদাহরণ: রহিম উদ্দিন"
-                className="h-[34px] w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
+                className="h-8.5 w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
               />
             </div>
             <div>
@@ -96,7 +96,7 @@ export default function SignupPage() {
                 autoComplete="email"
                 required
                 placeholder="you@example.com"
-                className="h-[34px] w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
+                className="h-8.5 w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
               />
             </div>
             <div>
@@ -111,7 +111,7 @@ export default function SignupPage() {
                 minLength={6}
                 required
                 placeholder="কমপক্ষে ৬ অক্ষর"
-                className="h-[34px] w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
+                className="h-8.5 w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
               />
             </div>
             <div>
@@ -126,14 +126,14 @@ export default function SignupPage() {
                 minLength={6}
                 required
                 placeholder="আবার লিখুন"
-                className="h-[34px] w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
+                className="h-8.5 w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
               />
             </div>
             <button
               type="submit"
               disabled={isSubmitting}
               aria-busy={isSubmitting}
-              className="h-[34px] w-full rounded-md bg-[#078b42] text-xs font-semibold text-white shadow-[0_2px_3px_#0003] transition hover:bg-[#06783a] active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078b42] disabled:cursor-wait disabled:opacity-70"
+              className="h-8.5 w-full rounded-md bg-[#078b42] text-xs font-semibold text-white shadow-[0_2px_3px_#0003] transition hover:bg-[#06783a] active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078b42] disabled:cursor-wait disabled:opacity-70"
             >
               অ্যাকাউন্ট তৈরি করুন
             </button>

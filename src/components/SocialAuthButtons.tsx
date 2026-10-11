@@ -49,7 +49,7 @@ export default function SocialAuthButtons({ mode }: SocialAuthButtonsProps) {
         disabled={loadingProvider !== null}
         className="flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-[#e1e9e2] px-2 text-[13px] font-medium transition hover:bg-[#f3f7f3] disabled:cursor-wait disabled:opacity-60"
       >
-        <FcGoogle aria-hidden="true" className="h-[18px] w-[18px] shrink-0" />
+        <FcGoogle aria-hidden="true" className="h-4.5 w-4.5 shrink-0" />
         {loadingProvider === "google" ? "Google খুলছে…" : "Google দিয়ে চালিয়ে যান"}
       </button>
       <button

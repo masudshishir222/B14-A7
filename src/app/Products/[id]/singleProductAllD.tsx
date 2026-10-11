@@ -272,7 +272,7 @@ function SingleProductAllDetails({
           বাজারভিত্তিক আজকের দাম
         </h2>
         <div className="overflow-x-auto rounded-xl border border-slate-200">
-          <table className="w-full min-w-[680px] border-collapse text-left text-sm">
+          <table className="w-full min-w-170 border-collapse text-left text-sm">
             <thead className="bg-white text-slate-600">
               <tr>
                 <th scope="col" className="px-3 py-3 font-semibold sm:px-4">

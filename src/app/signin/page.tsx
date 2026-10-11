@@ -47,7 +47,7 @@ export default function SigninPage() {
 
   return (
     <main className="flex min-h-[calc(100vh-8rem)] items-center justify-center bg-[#f0f5f0] px-4 py-10 text-[#202b24]">
-      <div className="w-full max-w-[390px]">
+      <div className="w-full max-w-97.5">
         <header className="mb-5 text-center">
           <h1 className="text-2xl font-bold leading-tight">সাইন ইন</h1>
           <p className="mt-1 text-sm text-[#77817a]">
@@ -88,7 +88,7 @@ export default function SigninPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="h-[34px] w-full rounded-md bg-[#078b42] text-sm font-semibold text-white shadow-[0_2px_3px_#0003] transition hover:bg-[#06783a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078b42]"
+              className="h-8.5 w-full rounded-md bg-[#078b42] text-sm font-semibold text-white shadow-[0_2px_3px_#0003] transition hover:bg-[#06783a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078b42]"
             >
               সাইন ইন
             </button>
