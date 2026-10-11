@@ -3,6 +3,7 @@ import { Hind_Siliguri } from "next/font/google";
 import type { ReactNode } from "react";
 import Header from "@/components/Header";
 import "./globals.css";
+import Footer from "@/components/Footer";
 
 const hindSiliguri = Hind_Siliguri({
   variable: "--font-sans",
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body suppressHydrationWarning className="bg-[#E1E8E1] text-black">
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
