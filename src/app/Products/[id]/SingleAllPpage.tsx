@@ -1,6 +1,8 @@
-import { notFound } from "next/navigation";
+"use client";
+
 import Link from "next/link";
 import CategorySort from "@/components/CategorySort";
+import { useEffect, useState } from "react";
 
 type Category = {
   id: string;
@@ -70,44 +72,43 @@ function getArrayData(value: unknown): unknown {
   return null;
 }
 
-async function SingleAllPpage({
+function SingleAllPpage({
   categoryId,
   sortBy,
 }: {
   categoryId: string;
   sortBy: "default" | "price-asc" | "price-desc";
 }) {
-  const [categoriesResponse, productsResponse] = await Promise.all([
-    fetch("https://openapi.programming-hero.com/api/bazardor/categories", {
-      cache: "no-store",
-    }),
-    fetch(
-      `https://openapi.programming-hero.com/api/bazardor/products?category=${encodeURIComponent(categoryId)}`,
-      { cache: "no-store" },
-    ),
-  ]);
+  const [categoriesData, setCategoriesData] = useState<Category[] | null>(null);
+  const [productsData, setProductsData] = useState<Product[] | null>(null);
 
-  if (!categoriesResponse.ok) {
-    throw new Error(`Failed to fetch categories: ${categoriesResponse.status}`);
-  }
-  if (!productsResponse.ok) {
-    throw new Error(`Failed to fetch products: ${productsResponse.status}`);
-  }
+  useEffect(() => {
+    Promise.all([
+      fetch("https://openapi.programming-hero.com/api/bazardor/categories"),
+      fetch(`https://openapi.programming-hero.com/api/bazardor/products?category=${encodeURIComponent(categoryId)}`),
+    ])
+      .then(async ([categoriesResponse, productsResponse]) => {
+        if (!categoriesResponse.ok || !productsResponse.ok) throw new Error("Product API request failed");
+        return Promise.all([categoriesResponse.json(), productsResponse.json()]);
+      })
+      .then(([categoriesResponseData, productsResponseData]: [unknown, unknown]) => {
+        const categories = getArrayData(categoriesResponseData);
+        const products = getArrayData(productsResponseData);
+        if (Array.isArray(categories) && categories.every(isCategory)) setCategoriesData(categories);
+        if (Array.isArray(products) && products.every(isProduct)) setProductsData(products);
+      })
+      .catch(() => {
+        setCategoriesData(null);
+        setProductsData(null);
+      });
+  }, [categoryId]);
 
-  const categoriesData = getArrayData(await categoriesResponse.json());
-  const productsData = getArrayData(await productsResponse.json());
-
-  if (!Array.isArray(categoriesData) || !categoriesData.every(isCategory)) {
-    throw new Error("Categories API returned an invalid response");
-  }
-  if (!Array.isArray(productsData) || !productsData.every(isProduct)) {
-    throw new Error("Products API returned an invalid response");
-  }
+  if (!categoriesData || !productsData) return null;
 
   const category = categoriesData.find(
     (item) => item.id === categoryId || item.slug === categoryId,
   );
-  if (!category) notFound();
+  if (!category) return null;
 
   const sortedProducts = [...productsData];
   if (sortBy === "price-asc") {

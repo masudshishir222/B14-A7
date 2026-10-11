@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type Product = {
   id: number;
@@ -44,29 +47,24 @@ const isProduct = (value: unknown): value is Product => {
   );
 };
 
-async function AllProducts() {
-  const response = await fetch(
-    "https://openapi.programming-hero.com/api/bazardor/products",
-    { cache: "no-store" },
-  );
+function AllProducts() {
+  const [productData, setProductData] = useState<Product[] | null>(null);
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch products: ${response.status}`);
-  }
+  useEffect(() => {
+    fetch("https://openapi.programming-hero.com/api/bazardor/products")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((responseData: unknown) => {
+        const data = Array.isArray(responseData)
+          ? responseData
+          : typeof responseData === "object" && responseData !== null && "data" in responseData
+            ? responseData.data
+            : null;
+        if (Array.isArray(data) && data.every(isProduct)) setProductData(data);
+      })
+      .catch(() => setProductData(null));
+  }, []);
 
-  const responseData: unknown = await response.json();
-  const productData =
-    Array.isArray(responseData)
-      ? responseData
-      : typeof responseData === "object" &&
-          responseData !== null &&
-          "data" in responseData
-        ? responseData.data
-        : null;
-
-  if (!Array.isArray(productData) || !productData.every(isProduct)) {
-    throw new Error("Products API returned an invalid response");
-  }
+  if (!productData) return null;
 
   return (
     <section

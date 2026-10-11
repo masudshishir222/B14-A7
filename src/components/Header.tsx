@@ -30,7 +30,11 @@ export default function Header() {
           </div>
         </Link>
 
-        <AuthLinks />
+        <Suspense
+          fallback={<div className="h-10 w-24" aria-hidden="true" />}
+        >
+          <AuthLinks />
+        </Suspense>
       </div>
 
       <div className="border-t border-slate-100">

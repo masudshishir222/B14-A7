@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 type Product = {
   id: number;
   nameBn: string;
@@ -12,21 +16,24 @@ type Product = {
 
 const bengaliNumberFormatter = new Intl.NumberFormat("bn-BD");
 
-const Marquee = async () => {
-  const res = await fetch("https://openapi.programming-hero.com/api/bazardor/products", {
-    cache: "no-store"
-  });
-  
-  if (!res.ok) {
-    throw new Error(`Failed to fetch products: ${res.status}`);
-  }
+const Marquee = () => {
+  const [products, setProducts] = useState<Product[] | null>(null);
 
-  const responseData = await res.json();
-  const products: Product[] = responseData.data || responseData; 
+  useEffect(() => {
+    fetch("https://openapi.programming-hero.com/api/bazardor/products")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((responseData: unknown) => {
+        const data = Array.isArray(responseData)
+          ? responseData
+          : typeof responseData === "object" && responseData !== null && "data" in responseData
+            ? responseData.data
+            : null;
+        if (Array.isArray(data)) setProducts(data as Product[]);
+      })
+      .catch(() => setProducts(null));
+  }, []);
 
-  if (!Array.isArray(products)) {
-    throw new Error("Products API returned an invalid response");
-  }
+  if (!products) return null;
 
   return (
     <div className="group flex overflow-hidden bg-[#F8F9FA] border-y border-slate-200 py-3">

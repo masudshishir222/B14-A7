@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { authClient } from "@/lib/auth-client";
 
 type MarketPrice = {
   market: string;
@@ -92,35 +96,45 @@ function getProductData(value: unknown): unknown {
   return value;
 }
 
-async function SingleProductAllDetails({
+function SingleProductAllDetails({
   categoryId,
   productId,
 }: {
   categoryId: string;
   productId: string;
 }) {
-  if (!/^\d+$/.test(productId)) notFound();
+  const router = useRouter();
+  const pathname = usePathname();
+  const { data: session, isPending } = authClient.useSession();
+  const [productData, setProductData] = useState<Product | null>(null);
 
-  const response = await fetch(
-    `https://openapi.programming-hero.com/api/bazardor/products/${productId}`,
-    { cache: "no-store" },
-  );
+  useEffect(() => {
+    if (isPending || session || !pathname) return;
+    router.replace(`/signin?callbackURL=${encodeURIComponent(pathname)}`);
+  }, [isPending, pathname, router, session]);
 
-  if (response.status === 404) notFound();
-  if (!response.ok) {
-    throw new Error(`Failed to fetch product: ${response.status}`);
-  }
+  useEffect(() => {
+    if (isPending || !session || !/^\d+$/.test(productId)) return;
+    let cancelled = false;
+    fetch(`https://openapi.programming-hero.com/api/bazardor/products/${productId}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((responseData: unknown) => {
+        const data = getProductData(responseData);
+        if (!cancelled && isProduct(data)) setProductData(data);
+      })
+      .catch(() => {
+        if (!cancelled) setProductData(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isPending, productId, session]);
 
-  const productData = getProductData(await response.json());
-  if (!isProduct(productData)) {
-    throw new Error("Product API returned an invalid response");
-  }
+  if (isPending || !session || !productData) return null;
   if (
     productData.id !== Number(productId) ||
     productData.category !== categoryId
-  ) {
-    notFound();
-  }
+  ) return null;
 
   const priceChangeColor =
     productData.change.dir === "up"

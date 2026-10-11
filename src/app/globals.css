@@ -2,7 +2,7 @@
 @plugin "daisyui";
 
 body {
-  font-family: var(--font-sans), sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 .marquee-track {

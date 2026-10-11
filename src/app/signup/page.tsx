@@ -1,8 +1,64 @@
+"use client";
+
 import Link from "next/link";
-import { FaGithub } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+import { useRouter } from "next/navigation";
+import { useState, type FormEvent } from "react";
+import { toast } from "react-toastify";
+import { authClient } from "@/lib/auth-client";
+import SocialAuthButtons from "@/components/SocialAuthButtons";
 
 export default function SignupPage() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const password = String(formData.get("password") ?? "");
+    const confirmPassword = String(formData.get("confirmPassword") ?? "");
+
+    if (password !== confirmPassword) {
+      toast.error("দুটি পাসওয়ার্ড মিলছে না");
+      return;
+    }
+    if (password.length < 6) {
+      toast.error("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const result = await authClient.signUp.email({
+        name,
+        email,
+        password,
+      });
+
+      if (result.error) {
+        toast.error(
+          result.error.status >= 500
+            ? "Authentication database is unreachable. Check the MongoDB Atlas connection."
+            : result.error.message || "অ্যাকাউন্ট তৈরি করা যায়নি",
+        );
+        return;
+      }
+
+      toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে");
+      const callbackURL = new URLSearchParams(window.location.search).get("callbackURL");
+      const destination = callbackURL?.startsWith("/") && !callbackURL.startsWith("//")
+        ? callbackURL
+        : "/";
+      router.replace(destination);
+      router.refresh();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "অ্যাকাউন্ট তৈরি করা যায়নি");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <main className="flex min-h-[calc(100vh-8rem)] items-center justify-center bg-[#f0f5f0] px-4 py-8 text-[#202b24]">
       <div className="w-full max-w-[390px]">
@@ -14,7 +70,7 @@ export default function SignupPage() {
         </header>
 
         <section className="rounded-xl border border-[#e0e9e1] bg-[#fbfdfb] p-3.5 shadow-sm sm:p-4">
-          <form className="space-y-2.5">
+          <form className="space-y-2.5" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="mb-0.5 block text-xs font-medium">
                 নাম
@@ -24,6 +80,7 @@ export default function SignupPage() {
                 name="name"
                 type="text"
                 autoComplete="name"
+                required
                 placeholder="উদাহরণ: রহিম উদ্দিন"
                 className="h-[34px] w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
               />
@@ -37,6 +94,7 @@ export default function SignupPage() {
                 name="email"
                 type="email"
                 autoComplete="email"
+                required
                 placeholder="you@example.com"
                 className="h-[34px] w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
               />
@@ -50,6 +108,8 @@ export default function SignupPage() {
                 name="password"
                 type="password"
                 autoComplete="new-password"
+                minLength={6}
+                required
                 placeholder="কমপক্ষে ৬ অক্ষর"
                 className="h-[34px] w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
               />
@@ -63,13 +123,17 @@ export default function SignupPage() {
                 name="confirmPassword"
                 type="password"
                 autoComplete="new-password"
+                minLength={6}
+                required
                 placeholder="আবার লিখুন"
                 className="h-[34px] w-full rounded-md border border-[#e1e9e2] bg-transparent px-2 text-xs outline-none transition focus:border-[#008940] focus:ring-2 focus:ring-[#008940]/15"
               />
             </div>
             <button
               type="submit"
-              className="h-[34px] w-full rounded-md bg-[#078b42] text-xs font-semibold text-white shadow-[0_2px_3px_#0003] transition hover:bg-[#06783a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078b42]"
+              disabled={isSubmitting}
+              aria-busy={isSubmitting}
+              className="h-[34px] w-full rounded-md bg-[#078b42] text-xs font-semibold text-white shadow-[0_2px_3px_#0003] transition hover:bg-[#06783a] active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078b42] disabled:cursor-wait disabled:opacity-70"
             >
               অ্যাকাউন্ট তৈরি করুন
             </button>
@@ -81,20 +145,11 @@ export default function SignupPage() {
             <span className="h-px flex-1 bg-[#e1e7e2]" />
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
-            <button type="button" className="flex h-[32px] items-center justify-center gap-1 whitespace-nowrap rounded-md border border-[#e1e9e2] px-1.5 text-[11px] font-medium hover:bg-[#f3f7f3]">
-              <FcGoogle aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
-              Google দিয়ে চালিয়ে যান
-            </button>
-            <button type="button" className="flex h-[32px] items-center justify-center gap-1 whitespace-nowrap rounded-md border border-[#e1e9e2] px-1.5 text-[11px] font-medium hover:bg-[#f3f7f3]">
-              <FaGithub aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
-              GitHub দিয়ে চালিয়ে যান
-            </button>
-          </div>
+          <SocialAuthButtons mode="signup" />
 
           <p className="mt-2 text-center text-xs">
             অ্যাকাউন্ট আছে?{" "}
-            <Link href="/signin" className="font-medium text-[#078b42] hover:underline">
+            <Link href="/signin" prefetch={false} className="font-medium text-[#078b42] hover:underline">
               সাইন ইন করুন
             </Link>
           </p>

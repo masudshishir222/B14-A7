@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
-import { Hind_Siliguri } from "next/font/google";
 import type { ReactNode } from "react";
 import Header from "@/components/Header";
 import "./globals.css";
 import Footer from "@/components/Footer";
-
-const hindSiliguri = Hind_Siliguri({
-  variable: "--font-sans",
-  subsets: ["latin", "bengali"],
-  weight: ["400", "500", "600", "700"],
-});
+import ToastProvider from "@/components/ToastProvider";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "B14 A7 Bazar",
@@ -21,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html
       lang="en"
       data-theme="light"
-      className={`${hindSiliguri.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <body
         suppressHydrationWarning
@@ -30,6 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Header />
         <div className="flex-1">{children}</div>
         <Footer />
+        <ToastProvider />
       </body>
     </html>
   );
