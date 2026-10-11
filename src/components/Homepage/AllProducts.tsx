@@ -1,5 +1,9 @@
+import Link from "next/link";
+
 type Product = {
   id: number;
+  slug: string;
+  category: string;
   nameBn: string;
   image: string;
   unit: string;
@@ -29,6 +33,8 @@ const isProduct = (value: unknown): value is Product => {
   const change = product.change as Record<string, unknown>;
   return (
     typeof product.id === "number" &&
+    typeof product.slug === "string" &&
+    typeof product.category === "string" &&
     typeof product.nameBn === "string" &&
     typeof product.image === "string" &&
     typeof product.unit === "string" &&
@@ -89,9 +95,10 @@ async function AllProducts() {
               : "text-slate-600";
 
           return (
-            <article
+            <Link
               key={product.id}
-              className="rounded-2xl border border-slate-200 bg-[#F8F9FA] p-3 sm:p-4"
+              href={`/Products/${product.category}/${product.id}`}
+              className="rounded-2xl border border-slate-200 bg-[#F8F9FA] p-3 transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-[#C8E6D1] hover:shadow-md motion-reduce:transition-none sm:p-4"
             >
               <div className="flex items-center gap-3">
                 <span
@@ -130,7 +137,7 @@ async function AllProducts() {
                     ` ${bengaliNumberFormatter.format(product.change.pct)}%`}
                 </span>
               </div>
-            </article>
+            </Link>
           );
         })}
       </div>
