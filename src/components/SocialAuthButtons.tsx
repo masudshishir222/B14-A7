@@ -47,7 +47,7 @@ export default function SocialAuthButtons({ mode }: SocialAuthButtonsProps) {
         type="button"
         onClick={() => handleSocialAuth("google")}
         disabled={loadingProvider !== null}
-        className="flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-[#e1e9e2] px-2 text-[13px] font-medium transition hover:bg-[#f3f7f3] disabled:cursor-wait disabled:opacity-60"
+        className="flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-[#e1e9e2] px-2 text-[13px] font-medium transition hover:bg-[#f3f7f3] disabled:cursor-wait disabled:opacity-60 cursor-pointer"
       >
         <FcGoogle aria-hidden="true" className="h-4.5 w-4.5 shrink-0" />
         {loadingProvider === "google" ? "Google খুলছে…" : "Google দিয়ে চালিয়ে যান"}
@@ -56,7 +56,7 @@ export default function SocialAuthButtons({ mode }: SocialAuthButtonsProps) {
         type="button"
         onClick={() => handleSocialAuth("github")}
         disabled={loadingProvider !== null}
-        className="flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-[#e1e9e2] px-2 text-[13px] font-medium transition hover:bg-[#f3f7f3] disabled:cursor-wait disabled:opacity-60"
+        className="flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-[#e1e9e2] px-2 text-[13px] font-medium transition hover:bg-[#f3f7f3] disabled:cursor-wait disabled:opacity-60 cursor-pointer"
       >
         <FaGithub aria-hidden="true" className="h-4 w-4 shrink-0" />
         {loadingProvider === "github" ? "GitHub খুলছে…" : "GitHub দিয়ে চালিয়ে যান"}

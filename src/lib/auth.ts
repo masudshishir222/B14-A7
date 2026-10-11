@@ -12,8 +12,29 @@ const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 const githubClientId = process.env.GITHUB_CLIENT_ID;
 const githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
 
+const isVercelDeployment = Boolean(process.env.VERCEL_URL);
+const vercelHosts = [
+  process.env.VERCEL_PROJECT_PRODUCTION_URL,
+  process.env.VERCEL_URL,
+].filter((host): host is string => Boolean(host));
+const configuredAuthURL = process.env.BETTER_AUTH_URL?.replace(/\/+$/, "");
+const configuredURLIsLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(
+  configuredAuthURL ?? "",
+);
+const authBaseURL =
+  configuredAuthURL && !(isVercelDeployment && configuredURLIsLocal)
+    ? configuredAuthURL
+    : vercelHosts[0]
+      ? `https://${vercelHosts[0]}`
+      : configuredAuthURL;
+const trustedDeploymentOrigins = [
+  ...(authBaseURL ? [new URL(authBaseURL).origin] : []),
+  ...vercelHosts.map((host) => `https://${host}`),
+];
+
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL,
+  baseURL: authBaseURL,
+  trustedOrigins: trustedDeploymentOrigins,
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 6,

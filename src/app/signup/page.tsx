@@ -133,7 +133,7 @@ export default function SignupPage() {
               type="submit"
               disabled={isSubmitting}
               aria-busy={isSubmitting}
-              className="h-8.5 w-full rounded-md bg-[#078b42] text-xs font-semibold text-white shadow-[0_2px_3px_#0003] transition hover:bg-[#06783a] active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078b42] disabled:cursor-wait disabled:opacity-70"
+              className="h-8.5 w-full rounded-md bg-[#078b42] text-xs font-semibold text-white shadow-[0_2px_3px_#0003] transition hover:bg-[#06783a] active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078b42] disabled:cursor-wait disabled:opacity-70 cursor-pointer"
             >
               অ্যাকাউন্ট তৈরি করুন
             </button>

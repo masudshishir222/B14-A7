@@ -88,7 +88,7 @@ export default function SigninPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="h-8.5 w-full rounded-md bg-[#078b42] text-sm font-semibold text-white shadow-[0_2px_3px_#0003] transition hover:bg-[#06783a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078b42]"
+              className="h-8.5 w-full rounded-md bg-[#078b42] text-sm font-semibold text-white shadow-[0_2px_3px_#0003] transition hover:bg-[#06783a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078b42] cursor-pointer"
             >
               সাইন ইন
             </button>
