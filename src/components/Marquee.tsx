@@ -10,13 +10,7 @@ type Product = {
   };
 };
 
-const engToBng = (number: number | string) => {
-  const bngNumbers = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-  return number.toString().split('').map(char => {
-    if (char >= '0' && char <= '9') return bngNumbers[parseInt(char)];
-    return char; 
-  }).join('');
-};
+const bengaliNumberFormatter = new Intl.NumberFormat("bn-BD");
 
 const Marquee = async () => {
   const res = await fetch("https://openapi.programming-hero.com/api/bazardor/products", {
@@ -46,12 +40,12 @@ const Marquee = async () => {
             {products.map((product) => (
               <div key={product.id} className="flex items-center gap-2 border-r border-slate-300 px-6 text-[15px] font-medium text-slate-800 whitespace-nowrap">
                 <span className="text-lg">{product.image}</span>
-                <span>{product.nameBn} {engToBng(product.today)} টাকা/{product.unit}</span>
+                <span>{product.nameBn} {bengaliNumberFormatter.format(product.today)} টাকা/{product.unit}</span>
                 {product.change.dir !== "flat" && (
                   <span className={`flex items-center gap-1 font-bold ${
                     product.change.dir === 'up' ? 'text-[#DC3545]' : 'text-[#28A745]'
                   }`}>
-                    {product.change.dir === 'up' ? '▲' : '▼'} {engToBng(product.change.pct)}%
+                    {product.change.dir === 'up' ? '▲' : '▼'} {bengaliNumberFormatter.format(product.change.pct)}%
                   </span>
                 )}
               </div>

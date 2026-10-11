@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Marquee from "@/components/Marquee";
+import Banner from "@/components/Homepage/Banner";
 
 export default function Home() {
   return (
@@ -7,8 +8,10 @@ export default function Home() {
       <Suspense fallback={null}>
         <Marquee />
       </Suspense>
-
-      <h1 className="text-3xl font-bold text-slate-900 pb-100">Welcome</h1>
+      <div>
+        <Banner />
+      </div>
     </div>
+
   );
 }
